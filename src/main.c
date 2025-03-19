@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:13 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/19 11:33:21 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:50:28 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,15 @@ int main(int ac, char **av)
 	pthread_join(thread1, NULL);
 	pthread_join(thread2, NULL);
 	printf("Le thread est termine avec %d\n", compteur_partage);
+	if (ac < 5 || ac > 6)
+	{
+		ft_putstr_fd("Invalid number of arguments!\nMust be 4 or 5.", 2);
+		return (0);
+	}
+	t_sim	sim;
+	if (!init_param_simulation(&sim, ac, av))
+	{
+		
+	}
 	return (0);
 }

@@ -11,5 +11,6 @@
 # include "routine.h"
 # include "simulation.h"
 # include "utils.h"
+# include "structs.h"
 
 #endif
