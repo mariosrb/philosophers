@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:37 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/19 16:03:48 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:08:51 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,8 @@ void	print_error(int error_code)
 		ft_putstr_fd("Erreur: les valeurs sont trop grandes\n", 2);
 	else if (error_code == ERR_ZERO_PHILOSOPHERS)
 		ft_putstr_fd("Erreur: le nombre de philosophes ne peut pas être zéro\n", 2);
+	else if (error_code == ERR_MEMORY_ALLOCATION)
+		ft_putstr_fd("Erreur : allocation de la mémoire a échoué\n", 2);
+	else if (error_code == ERR_MUTEX_INIT)
+		ft_putstr_fd("Erreur : initialisation du mutex a échoué\n", 2);
 }

@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 11:31:18 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:16:22 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,37 @@ int init_param_simulation(t_sim	*sim, int ac, char **av)
 	return (SUCCES);
 }
 
-// int init_resources(t_sim *sim)
-// {
-	
-// }
+int init_resources(t_sim *sim)
+{
+	int	i;
+
+	i = 0;
+	sim->philos = malloc(sizeof(t_philo) * sim->nb_philos);
+	if (!sim->philos)
+		return (ERR_MEMORY_ALLOCATION);
+	// Initialisation de la fourchette
+	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->nb_philos);
+	if (!sim->forks)
+		return (ERR_MEMORY_ALLOCATION);
+	// Initialisation de mutex d'affichage
+	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)
+	{
+		free(sim->philos);
+		free(sim->forks);
+		return (ERR_MUTEX_INIT);
+	}
+	// initialisation des mutex pour les fourchettes
+	while (i < sim->nb_philos)
+	{
+	}
+	// Initialisation de philosophes 
+	i = 0;
+	while (i < sim->nb_philos)
+	{
+		sim->philos[i].id = i + 1;
+		sim->philos[i].nb_meals = 0;
+		sim->philos[i].id = i + 1;
+		sim->philos[i].id = i + 1;
+		
+	}
+}
