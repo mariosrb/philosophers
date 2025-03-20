@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 10:41:04 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:32:17 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ long	ft_atol(char *str)
 	i = 0;
 	sign = 0;
 	number = 0;
-	while (ft_isspace(str[i]))
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

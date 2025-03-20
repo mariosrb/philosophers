@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 11:05:23 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:31:18 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,21 @@ int init_param_simulation(t_sim	*sim, int ac, char **av)
 		i++;
 	}
 	sim->nb_philos = ft_atoi(av[1]);
-	sim->time_to_die = ft_atoi(av[2]);
-	sim->time_to_eat = ft_atoi(av[3]);
-	sim->time_to_sleep = ft_atoi(av[4]);
+	printf("nb_philos: %d\n", sim->nb_philos);
+	sim->time_to_die = ft_atol(av[2]);
+	printf("time_to_die: %ld\n", sim->time_to_die);
+	sim->time_to_eat = ft_atol(av[3]);
+	printf("time_to_eat: %ld\n", sim->time_to_eat);
+	sim->time_to_sleep = ft_atol(av[4]);
+	printf("time_to_sleep: %ld\n", sim->time_to_sleep);
 	if (ac == 6)
 		sim->nb_must_eat = ft_atoi(av[5]);
 	else
 		sim->nb_must_eat = -1;
 	return (SUCCES);
 }
+
+// int init_resources(t_sim *sim)
+// {
+	
+// }

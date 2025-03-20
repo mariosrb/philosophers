@@ -2,25 +2,31 @@ NAME = philo
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
-SRCS = src/main.c \
-	   src/init.c \
-	   src/simulation.c \
-	   src/routine.c \
-	   src/utils.c \
-	   src/errors.c
+SRC_DIR = src/
+OBJ_DIR = obj/
 
-OBJS = $(SRCS:.c=.o)
+SRCS = main.c \
+	   init.c \
+	   simulation.c \
+	   routine.c \
+	   utils.c \
+	   errors.c
+
+OBJS = $(SRCS:%.c=$(OBJ_DIR)%.o)
 
 all: $(NAME)
+
+# Règle pour créer les fichiers objets
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
 clean:
 	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
