@@ -18,7 +18,7 @@ typedef struct s_philo
 
 struct s_sim
 {
-	int				num_philos; // Nombre de philo
+	int				nb_philos; // Nombre de philo
 	long			time_to_die;// Delai max sans manger avant de mourir
 	long			time_to_eat;// Duree necessaire pour manger
 	long			time_to_sleep;// Duree de sommeil apres avoir mange
