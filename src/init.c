@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 14:16:22 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:00:59 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ int init_resources(t_sim *sim)
 	{
 		sim->philos[i].id = i + 1;
 		sim->philos[i].nb_meals = 0;
-		sim->philos[i].id = i + 1;
-		sim->philos[i].id = i + 1;
-		
+		sim->philos[i].last_meal = 0;
+		sim->philos[i].sim = sim;
+		sim->philos[i].right_fork = &sim->forks[i];
+		sim->philos[i].left_fork = &sim->forks[(i + 1) % sim->nb_philos];
 	}
 }
