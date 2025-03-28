@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:13 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 11:33:25 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:58:51 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,21 @@ int main(int ac, char **av)
 	}
 	t_sim	sim;
 	int		error_code;
-
+	// Initialisation des parmetres de simulation
 	error_code = init_param_simulation(&sim, ac, av);
 	if (error_code != SUCCES)
 	{
 		print_error(error_code);
 		return (0);
 	}
+	// Initialisation des ressources
+	error_code = init_resources(&sim);
+	if (error_code != SUCCES)
+	{
+		print_error(error_code);
+		return (0);
+	}
+	// Lancement de la simulation
+	
 	return (0);
 }

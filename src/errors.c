@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:37 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/28 09:52:32 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:02:19 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	print_error(int error_code)
 		ft_putstr_fd("Erreur : allocation de la mémoire a échoué\n", 2);
 	else if (error_code == ERR_MUTEX_INIT)
 		ft_putstr_fd("Erreur : initialisation du mutex a échoué\n", 2);
+	else if (error_code == ERR_THREAD_CREATE)
+		ft_putstr_fd("Erreur : création du thread a échoué\n", 2);
+	else if (error_code == ERR_THREAD_JOIN)
+		ft_putstr_fd("Erreur : jointure du thread a échoué\n", 2);
 }
 
 void	clean_resources(t_sim *sim, int mutex_count)

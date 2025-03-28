@@ -6,13 +6,13 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 11:32:17 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:37:52 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char* s, int fd)
 {
 	while (*s && fd >= 0)
 	{
@@ -21,7 +21,7 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-long	ft_atol(char *str)
+long	ft_atol(char* str)
 {
 	long	number;
 	int		i;
@@ -48,7 +48,7 @@ long	ft_atol(char *str)
 	return (number);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char* str)
 {
 	int	i;
 	int	sign;
@@ -73,4 +73,12 @@ int	ft_atoi(const char *str)
 	if (sign == 1)
 		n = n * (-1);
 	return (n);
+}
+
+int	get_current_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }

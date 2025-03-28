@@ -9,6 +9,8 @@
 # define ERR_ZERO_PHILOSOPHERS 5
 # define ERR_MEMORY_ALLOCATION 6
 # define ERR_MUTEX_INIT 7
+# define ERR_THREAD_CREATE 8
+# define ERR_THREAD_JOIN 9
 
 typedef struct s_sim t_sim;
 

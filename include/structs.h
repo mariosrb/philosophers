@@ -24,6 +24,7 @@ struct s_sim
 	long			time_to_sleep;// Duree de sommeil apres avoir mange
 	int				nb_must_eat;// Nombre max de repas que chacun doit manger
 	long			start_time; // Timestamp de debut de simultion
+	int				is_runing; // Boleen pour savoir si on continue 
 	t_philo			*philos; // Tableau dynamique de philosophes 
 	pthread_mutex_t	*forks; // Tableau de mutex rpz les fourchettes
 	pthread_mutex_t	print_mutex; // Mutex dedie a la synchronisation des logs daffichage
