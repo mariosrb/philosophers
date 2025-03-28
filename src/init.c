@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/27 15:00:59 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/28 09:18:31 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ static int	verify_arg(char *arg)
 
 	i = 0;
 	value = 0;
+	if (arg[i] == '+')
+		i++;
+	if (!arg[i])
+		return (ERR_NOT_NUMERIC);
 	while (arg[i])
 	{
 		if (arg[i] < '0' || arg[i] > '9')
@@ -64,35 +68,42 @@ int init_param_simulation(t_sim	*sim, int ac, char **av)
 int init_resources(t_sim *sim)
 {
 	int	i;
-
-	i = 0;
+	
 	sim->philos = malloc(sizeof(t_philo) * sim->nb_philos);
 	if (!sim->philos)
 		return (ERR_MEMORY_ALLOCATION);
-	// Initialisation de la fourchette
 	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->nb_philos);
 	if (!sim->forks)
+	{
+		free(sim->philos);
 		return (ERR_MEMORY_ALLOCATION);
-	// Initialisation de mutex d'affichage
+	}
 	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)
 	{
 		free(sim->philos);
 		free(sim->forks);
-		return (ERR_MUTEX_INIT);
+		return (ERR_MEMORY_ALLOCATION);
 	}
-	// initialisation des mutex pour les fourchettes
-	while (i < sim->nb_philos)
+	if (pthread_mutex_init(&sim->death_mutex, NULL) != 0)
 	{
+		free(sim->philos);
+		free(sim->forks);
+		pthread_mutex_destroy(&sim->print_mutex);
+		return (ERR_MEMORY_ALLOCATION);
 	}
-	// Initialisation de philosophes 
 	i = 0;
-	while (i < sim->nb_philos)
+	while (i < sim->nb_must_eat)
 	{
-		sim->philos[i].id = i + 1;
-		sim->philos[i].nb_meals = 0;
-		sim->philos[i].last_meal = 0;
-		sim->philos[i].sim = sim;
-		sim->philos[i].right_fork = &sim->forks[i];
-		sim->philos[i].left_fork = &sim->forks[(i + 1) % sim->nb_philos];
+		if (pthread_mutex_init(&sim->forks[i], NULL) != 0)
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&sim->forks[i]);
+			free(sim->philos);
+			free(sim->forks);
+			pthread_mutex_destroy(&sim->forks[i]);
+			return (ERR_MUTEX_INIT);
+		}
+		i++;
 	}
+	
 }
