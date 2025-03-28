@@ -6,11 +6,28 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/28 09:18:31 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:02:37 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+static void	init_philosophers(t_sim *sim)
+{
+	int	i;
+
+	i = 0;
+	while (i < sim->nb_philos)
+	{
+		sim->philos[i].id = i + 1;
+		sim->philos[i].nb_meals = 0;
+		sim->philos[i].last_meal = 0;
+		sim->philos[i].left_fork = &sim->forks[i];
+		sim->philos[i].right_fork = &sim->forks[(i + 1) % sim->nb_philos];
+		sim->philos[i].sim = sim;
+		i++;
+	}
+}
 
 static int	verify_arg(char *arg)
 {
@@ -37,11 +54,25 @@ static int	verify_arg(char *arg)
 	return (SUCCES);
 }
 
-int init_param_simulation(t_sim	*sim, int ac, char **av)
+static int	init_mutex(t_sim *sim)
+{
+	int	i;
+
+	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0 ||
+		pthread_mutex_init(&sim->death_mutex, NULL) != 0)
+		return (-1);
+	i = -1;
+	while (++i < sim->nb_philos)
+		if (pthread_mutex_init(&sim->forks[i], NULL) != 0)
+			return (i);
+	return (-2);
+}
+
+int	init_param_simulation(t_sim *sim, int ac, char **av)
 {
 	int	i;
 	int	error_code;
-	
+
 	i = 1;
 	while (i < ac)
 	{
@@ -65,45 +96,25 @@ int init_param_simulation(t_sim	*sim, int ac, char **av)
 	return (SUCCES);
 }
 
-int init_resources(t_sim *sim)
+int	init_resources(t_sim *sim)
 {
-	int	i;
-	
+	int	mutex_init;
+
 	sim->philos = malloc(sizeof(t_philo) * sim->nb_philos);
 	if (!sim->philos)
 		return (ERR_MEMORY_ALLOCATION);
 	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->nb_philos);
 	if (!sim->forks)
 	{
-		free(sim->philos);
+		clean_resources(sim, -1);
 		return (ERR_MEMORY_ALLOCATION);
 	}
-	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)
+	mutex_init = init_mutex(sim);
+	if (mutex_init != -2)
 	{
-		free(sim->philos);
-		free(sim->forks);
-		return (ERR_MEMORY_ALLOCATION);
+		clean_resources(sim, mutex_init);
+		return (ERR_MUTEX_INIT);
 	}
-	if (pthread_mutex_init(&sim->death_mutex, NULL) != 0)
-	{
-		free(sim->philos);
-		free(sim->forks);
-		pthread_mutex_destroy(&sim->print_mutex);
-		return (ERR_MEMORY_ALLOCATION);
-	}
-	i = 0;
-	while (i < sim->nb_must_eat)
-	{
-		if (pthread_mutex_init(&sim->forks[i], NULL) != 0)
-		{
-			while (--i >= 0)
-				pthread_mutex_destroy(&sim->forks[i]);
-			free(sim->philos);
-			free(sim->forks);
-			pthread_mutex_destroy(&sim->forks[i]);
-			return (ERR_MUTEX_INIT);
-		}
-		i++;
-	}
-	
+	init_philosophers(sim);
+	return (SUCCES);
 }

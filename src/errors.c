@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:37 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/20 14:08:51 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/28 09:52:32 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,22 @@ void	print_error(int error_code)
 		ft_putstr_fd("Erreur : allocation de la mémoire a échoué\n", 2);
 	else if (error_code == ERR_MUTEX_INIT)
 		ft_putstr_fd("Erreur : initialisation du mutex a échoué\n", 2);
+}
+
+void	clean_resources(t_sim *sim, int mutex_count)
+{
+	int	i;
+
+	i = 0;
+	if (mutex_count >= 0)
+	{
+		while (i < mutex_count)
+			pthread_mutex_destroy(&sim->forks[i++]);
+		pthread_mutex_destroy(&sim->print_mutex);
+		pthread_mutex_destroy(&sim->death_mutex);
+	}
+	if (sim->forks)
+		free(sim->forks);
+	if (sim->philos)
+		free(sim->philos);
 }

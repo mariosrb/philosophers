@@ -10,6 +10,8 @@
 # define ERR_MEMORY_ALLOCATION 6
 # define ERR_MUTEX_INIT 7
 
-void	print_error(int error_code);
+typedef struct s_sim t_sim;
 
+void	print_error(int error_code);
+void	clean_resources(t_sim *sim, int mutex_count);
 #endif
