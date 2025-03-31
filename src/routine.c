@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mario <mario@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:11 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/28 18:11:12 by mario            ###   ########.fr       */
+/*   Updated: 2025/03/31 12:09:55 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static int	take_forks(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		print_status(philo, "has taken a fork");
 	}
+	return (1);
 }
 
 static void	eat(t_philo *philo)
