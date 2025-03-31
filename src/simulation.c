@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:52 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/31 12:47:01 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:12:31 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,27 @@ static void	*monitor_philosophers(void *arg)
 			pthread_mutex_unlock(&sim->death_mutex);
 			i++;
 		}
-		if ()
+		if (sim->nb_must_eat != -1 && all_ate && sim->is_runing)
+		{
+			pthread_mutex_lock(&sim->death_mutex);
+			sim->is_runing = 0;
+			pthread_mutex_unlock(&sim->death_mutex);
+			return (NULL);
+		}
+		usleep(1000);
 	}
+	return (NULL);
 }
 
 int start_simulation(t_sim *sim)
 {
-	int	i;
+	int			i;
+	pthread_t	monitor;
 
 	sim->start_time = get_current_time();
 	sim->is_runing = 1;
 	i = 0;
+	// Lancement du thread des philosophes
 	while (i < sim->nb_philos)
 	{
 		if (pthread_create(&sim->philos[i].thread, NULL,
@@ -68,5 +78,18 @@ int start_simulation(t_sim *sim)
 		}
 		i++;
 	}
+	// Lancement du thread de surveillance
+	if (pthread_create(&monitor, NULL, monitor_philosophers, sim) != 0)
+	{
+		sim->is_runing = 0;
+		i = -1;
+		while (++i < sim->nb_philos)
+			pthread_join(sim->philos[i].thread, NULL);
+		return (ERR_THREAD_CREATE);
+	}
+	i = -1;
+	while (++i < sim->nb_philos)
+		pthread_join(sim->philos[i].thread, NULL);
+	pthread_join(monitor, NULL);
 	return (SUCCES);
 }

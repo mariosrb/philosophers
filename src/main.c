@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 11:01:13 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/28 10:58:51 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:19:06 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 	{
 		ft_putstr_fd("Invalid number of arguments!\nMust be 4 or 5.", 2);
-		return (0);
+		return (1);
 	}
 	t_sim	sim;
 	int		error_code;
@@ -63,16 +63,23 @@ int main(int ac, char **av)
 	if (error_code != SUCCES)
 	{
 		print_error(error_code);
-		return (0);
+		return (1);
 	}
 	// Initialisation des ressources
 	error_code = init_resources(&sim);
 	if (error_code != SUCCES)
 	{
 		print_error(error_code);
-		return (0);
+		return (1);
 	}
 	// Lancement de la simulation
-	
+	error_code = start_simulation(&sim);
+	if (error_code != SUCCES)
+	{
+		print_error(error_code);
+		clean_resources(&sim, sim.nb_philos);
+		return (1);
+	}
+	clean_resources(&sim, sim.nb_philos);
 	return (0);
 }
