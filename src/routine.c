@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:11 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/31 12:09:55 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:27:00 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,25 @@
 static void	print_status(t_philo *philo, char *mssg)
 {
 	long	timestamp;
+	char	*color;
+	
+	if (ft_strcmp(mssg, "has taken a fork") == 0)
+		color = "\033[33m";
+	else if (ft_strcmp(mssg, "is eating") == 0)
+		color = "\033[32m";
+	else if (ft_strcmp(mssg, "is sleeping") == 0)
+		color = "\033[34m";
+	else if (ft_strcmp(mssg, "is thinking") == 0)
+		color = "\033[36m";
+	else if (ft_strcmp(mssg, "is dead") == 0)
+		color = "\033[31m";
+	else
+		color = "\033[0m";
 
 	pthread_mutex_lock(&philo->sim->print_mutex);
-	timestamp = get_current_time() - philo->sim->start_time;\
+	timestamp = get_current_time() - philo->sim->start_time;
 	if (philo->sim->is_runing)
-		printf("%ld %d %s\n", timestamp, philo->id, mssg);
+		printf("%s%ld %d %s\033[0m\n", color, timestamp, philo->id, mssg);
 	pthread_mutex_unlock(&philo->sim->print_mutex);
 }
 
