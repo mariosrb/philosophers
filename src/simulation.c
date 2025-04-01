@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:52 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/31 15:12:31 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:20:59 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	*monitor_philosophers(void *arg)
 	int		i;
 	int		all_ate;
 	long	current_time;
-	
+
 	sim = (t_sim *)arg;
 	while (sim->is_runing)
 	{
@@ -39,8 +39,8 @@ static void	*monitor_philosophers(void *arg)
 				pthread_mutex_unlock(&sim->print_mutex);
 				return (NULL);
 			}
-			if (sim->nb_must_eat != -1 &&
-				sim->philos[i].nb_meals < sim->nb_must_eat)
+			if (sim->nb_must_eat != -1 && sim->philos[i].nb_meals
+				< sim->nb_must_eat)
 				all_ate = 0;
 			pthread_mutex_unlock(&sim->death_mutex);
 			i++;
@@ -57,7 +57,7 @@ static void	*monitor_philosophers(void *arg)
 	return (NULL);
 }
 
-int start_simulation(t_sim *sim)
+int	start_simulation(t_sim *sim)
 {
 	int			i;
 	pthread_t	monitor;

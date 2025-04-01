@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:11 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/31 16:27:00 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:25:47 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_status(t_philo *philo, char *mssg)
 {
 	long	timestamp;
 	char	*color;
-	
+
 	if (ft_strcmp(mssg, "has taken a fork") == 0)
 		color = "\033[33m";
 	else if (ft_strcmp(mssg, "is eating") == 0)
@@ -30,7 +30,6 @@ static void	print_status(t_philo *philo, char *mssg)
 		color = "\033[31m";
 	else
 		color = "\033[0m";
-
 	pthread_mutex_lock(&philo->sim->print_mutex);
 	timestamp = get_current_time() - philo->sim->start_time;
 	if (philo->sim->is_runing)
@@ -42,7 +41,7 @@ static void	print_status(t_philo *philo, char *mssg)
 static int	is_simulation_running(t_philo *philo)
 {
 	int	running;
-	
+
 	pthread_mutex_lock(&philo->sim->death_mutex);
 	running = philo->sim->is_runing;
 	pthread_mutex_unlock(&philo->sim->death_mutex);
@@ -83,14 +82,11 @@ static void	eat(t_philo *philo)
 
 	current_time = get_current_time();
 	print_status(philo, "is eating");
-	//Mise a jour du timestamp du dernier repas
 	pthread_mutex_lock(&philo->sim->death_mutex);
 	philo->last_meal = current_time;
 	philo->nb_meals++;
 	pthread_mutex_unlock(&philo->sim->death_mutex);
-	//simuluer le temps de manger
 	usleep(philo->sim->time_to_eat * 1000);
-	//liberer les fourchettes
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
@@ -100,7 +96,6 @@ static void	sleep_and_think(t_philo *philo)
 	print_status(philo, "is sleeping");
 	usleep(philo->sim->time_to_sleep * 1000);
 	print_status(philo, "is thinking");
-	// test petit delai pour eviter qque le meme philsoophe ne prenne immediatement les fourchettes
 	usleep(500);
 }
 

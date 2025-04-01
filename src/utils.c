@@ -6,13 +6,13 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/31 16:26:19 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:22:52 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	ft_putstr_fd(char* s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
 	while (*s && fd >= 0)
 	{
@@ -21,7 +21,7 @@ void	ft_putstr_fd(char* s, int fd)
 	}
 }
 
-long	ft_atol(char* str)
+long	ft_atol(char *str)
 {
 	long	number;
 	int		i;
@@ -48,7 +48,7 @@ long	ft_atol(char* str)
 	return (number);
 }
 
-int	ft_atoi(const char* str)
+int	ft_atoi(const char *str)
 {
 	int	i;
 	int	sign;
@@ -90,5 +90,5 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s1++;
 		s2++;
 	}
-	return (*(unsigned char*)s1 - *(unsigned char*)s2);
+	return (*(unsigned char *) s1 - *(unsigned char *)s2);
 }

@@ -6,7 +6,7 @@
 /*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:37:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/03/31 15:53:38 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:19:55 by mdodevsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static int	init_mutex(t_sim *sim)
 {
 	int	i;
 
-	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0 ||
-		pthread_mutex_init(&sim->death_mutex, NULL) != 0)
+	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0
+		|| pthread_mutex_init(&sim->death_mutex, NULL) != 0)
 		return (-1);
 	i = -1;
 	while (++i < sim->nb_philos)
