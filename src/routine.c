@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mario <mario@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:11 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/04/01 14:25:47 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:16:37 by mario            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-// Fonciton pour afficher les messages detat des philosophes de facon synchronise 
-static void	print_status(t_philo *philo, char *mssg)
+// Messages detat des philosophes de facon synchronise
+void	print_status(t_philo *philo, char *mssg)
 {
 	long	timestamp;
 	char	*color;
+	int		should_print;
 
 	if (ft_strcmp(mssg, "has taken a fork") == 0)
 		color = "\033[33m";
@@ -32,13 +33,16 @@ static void	print_status(t_philo *philo, char *mssg)
 		color = "\033[0m";
 	pthread_mutex_lock(&philo->sim->print_mutex);
 	timestamp = get_current_time() - philo->sim->start_time;
-	if (philo->sim->is_runing)
+	pthread_mutex_lock(&philo->sim->death_mutex);
+	should_print = philo->sim->is_runing;
+	pthread_mutex_unlock(&philo->sim->death_mutex);
+	if (should_print)
 		printf("%s%ld %d %s\033[0m\n", color, timestamp, philo->id, mssg);
 	pthread_mutex_unlock(&philo->sim->print_mutex);
 }
 
 // Verifier si la simulation est toujours en cours
-static int	is_simulation_running(t_philo *philo)
+int	is_simulation_running(t_philo *philo)
 {
 	int	running;
 
@@ -86,26 +90,17 @@ static void	eat(t_philo *philo)
 	philo->last_meal = current_time;
 	philo->nb_meals++;
 	pthread_mutex_unlock(&philo->sim->death_mutex);
-	usleep(philo->sim->time_to_eat * 1000);
+	smart_usleep(philo, philo->sim->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
 
-static void	sleep_and_think(t_philo *philo)
-{
-	print_status(philo, "is sleeping");
-	usleep(philo->sim->time_to_sleep * 1000);
-	print_status(philo, "is thinking");
-	usleep(500);
-}
-
 // Routine principale du philosophe
-void *philosopher_routine(void *arg)
+void	*philosopher_routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->last_meal = get_current_time();
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	while (is_simulation_running(philo))

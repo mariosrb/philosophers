@@ -3,7 +3,7 @@
 
 # include <sys/time.h>
 
-int	start_simulation(t_sim *sim);
-
+int		start_simulation(t_sim *sim);
+void	*monitor_philosophers(void *arg);
 
 #endif

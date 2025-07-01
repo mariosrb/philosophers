@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdodevsk <mdodevsk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mario <mario@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 12:38:26 by mdodevsk          #+#    #+#             */
-/*   Updated: 2025/04/01 14:22:52 by mdodevsk         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:14:17 by mario            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,24 @@ int	get_current_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	smart_usleep(t_philo *philo, long duration_ms)
 {
-	while (*s1 && (*s1 == *s2))
+	long	start_time;
+	long	current_time;
+	long	elapsed;
+
+	start_time = get_current_time();
+	while (1)
 	{
-		s1++;
-		s2++;
+		if (!is_simulation_running(philo))
+			break ;
+		current_time = get_current_time();
+		elapsed = current_time - start_time;
+		if (elapsed >= duration_ms)
+			break ;
+		if (duration_ms - elapsed > 1)
+			usleep(1000);
+		else
+			usleep((duration_ms - elapsed) * 1000);
 	}
-	return (*(unsigned char *) s1 - *(unsigned char *)s2);
 }

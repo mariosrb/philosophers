@@ -12,8 +12,9 @@
 # define ERR_THREAD_CREATE 8
 # define ERR_THREAD_JOIN 9
 
-typedef struct s_sim t_sim;
+typedef struct s_sim	t_sim;
 
 void	print_error(int error_code);
 void	clean_resources(t_sim *sim, int mutex_count);
+
 #endif

@@ -5,12 +5,12 @@ CFLAGS = -Wall -Wextra -Werror -pthread
 SRC_DIR = src/
 OBJ_DIR = obj/
 
-SRCS = main.c \
-	   init.c \
-	   simulation.c \
-	   routine.c \
-	   utils.c \
-	   errors.c
+SRCS =	main.c \
+		init.c \
+		simulation.c simulation2.c \
+		routine.c routine_utils.c \
+		utils.c \
+		errors.c
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)%.o)
 
